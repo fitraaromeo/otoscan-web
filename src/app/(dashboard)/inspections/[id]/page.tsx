@@ -178,7 +178,7 @@ function AnnotatedImage({ capture }: { capture: AngleCapture }) {
           fontWeight: 600,
         }}
       >
-        {hasDamages ? `${capture.damages.length} kerusakan` : '✓ Bersih'}
+        {hasDamages ? `${capture.damages.length} damage${capture.damages.length > 1 ? 's' : ''}` : '✓ Clean'}
       </div>
     </div>
   );
@@ -426,10 +426,10 @@ function AngleCardSlot({
   }
 
   const angleInstruction: Record<string, string> = {
-    front: 'Posisikan bagian DEPAN mobil di dalam bingkai 🚘',
-    rear: 'Posisikan bagian BELAKANG mobil di dalam bingkai 🚘',
-    left: 'Posisikan bagian KIRI mobil di dalam bingkai 🚘',
-    right: 'Posisikan bagian KANAN mobil di dalam bingkai 🚘',
+    front: 'Position FRONT side of vehicle in the frame 🚘',
+    rear: 'Position REAR side of vehicle in the frame 🚘',
+    left: 'Position LEFT side of vehicle in the frame 🚘',
+    right: 'Position RIGHT side of vehicle in the frame 🚘',
   };
 
   return (
@@ -479,8 +479,8 @@ function AngleCardSlot({
             }}
           >
             <RefreshCw size={28} className="animate-spin" />
-            <div style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>Memproses AI YOLOv12...</div>
-            <div style={{ fontSize: 11, color: 'var(--text-3)' }}>Mendeksi kerusakan fisik</div>
+            <div style={{ fontSize: 13, fontWeight: 600, color: '#fff' }}>Processing YOLOv12 AI...</div>
+            <div style={{ fontSize: 11, color: 'var(--text-3)' }}>Detecting physical damages</div>
           </div>
         )}
       </div>
@@ -511,7 +511,7 @@ function AngleCardSlot({
           }}
         >
           <Camera size={14} />
-          <span>Kamera</span>
+          <span>Camera</span>
         </button>
         <button
           className="btn btn-secondary"
@@ -526,7 +526,7 @@ function AngleCardSlot({
           }}
         >
           <ImageIcon size={14} style={{ color: 'var(--accent-light)' }} />
-          <span>Galeri</span>
+          <span>Gallery</span>
         </button>
       </div>
 
@@ -534,8 +534,8 @@ function AngleCardSlot({
       <Modal
         isOpen={isCameraOpen}
         onClose={handleCloseCamera}
-        title={`Scan Real-time — ${ANGLE_LABEL[capture.angle]}`}
-        subtitle="Ambil foto secara langsung menggunakan kamera perangkat Anda"
+        title={`Real-time Scan — ${ANGLE_LABEL[capture.angle]}`}
+        subtitle="Capture photo directly using your device camera"
         size="lg"
         footer={
           <div style={{ display: 'flex', justifyContent: 'space-between', width: '100%', alignItems: 'center' }}>
@@ -550,7 +550,7 @@ function AngleCardSlot({
                 >
                   {videoDevices.map((device, idx) => (
                     <option key={device.deviceId} value={device.deviceId}>
-                      {device.label || `Kamera ${idx + 1}`}
+                      {device.label || `Camera ${idx + 1}`}
                     </option>
                   ))}
                 </select>
@@ -578,20 +578,20 @@ function AngleCardSlot({
                 className="btn btn-secondary"
                 onClick={handleCloseCamera}
               >
-                Batal
+                Cancel
               </button>
               {capturedImage ? (
                 <>
                   <button className="btn btn-secondary" onClick={retakePhoto}>
-                    Ambil Ulang
+                    Retake
                   </button>
                   <button className="btn btn-primary" onClick={saveCapturedPhoto}>
-                    Gunakan & Deteksi AI
+                    Use & Detect AI
                   </button>
                 </>
               ) : (
                 <button className="btn btn-primary" onClick={capturePhoto} disabled={!stream}>
-                  Ambil Foto
+                  Capture Photo
                 </button>
               )}
             </div>
@@ -727,10 +727,10 @@ function getInspectionDuration(startedAt?: string | null, completedAt?: string |
 
   const diffSec = Math.max(0, Math.round((end - start) / 1000));
   if (diffSec < 60) {
-    return diffSec > 0 ? `${diffSec} detik` : '< 1 menit';
+    return diffSec > 0 ? `${diffSec}s` : '< 1 min';
   }
   const mins = Math.round(diffSec / 60);
-  return `${mins} menit`;
+  return `${mins} min`;
 }
 
 export default function InspectionDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -756,7 +756,7 @@ export default function InspectionDetailPage({ params }: { params: Promise<{ id:
     return (
       <div style={{ width: '100%', padding: '60px 0', textAlign: 'center', color: 'var(--text-3)' }}>
         <RefreshCw size={24} className="animate-spin" style={{ margin: '0 auto 12px', color: 'var(--accent)' }} />
-        Memuat detail laporan inspeksi...
+        Loading inspection report details...
       </div>
     );
   }
@@ -773,16 +773,13 @@ export default function InspectionDetailPage({ params }: { params: Promise<{ id:
           style={{ display: 'inline-flex', alignItems: 'center', gap: 6, color: 'var(--text-3)', marginBottom: 16 }}
         >
           <ArrowLeft size={14} />
-          Kembali ke Inspeksi
+          Back to Inspections
         </Link>
 
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 12 }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 6 }}>
               <InspectionStatusBadge status={inspection.status} />
-              <span style={{ fontSize: 12, color: 'var(--text-3)', fontFamily: 'monospace' }}>
-                ID: {inspection.id}
-              </span>
             </div>
             <h2
               style={{

@@ -487,15 +487,14 @@ export function formatDateTime(dateStr?: string | null): string {
   const d = new Date(dateStr);
   if (isNaN(d.getTime())) return dateStr;
 
-  return (
-    d.toLocaleDateString('id-ID', {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }) + ' WIB'
-  );
+  return d.toLocaleDateString('en-US', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
 }
 
 export async function fetchInspectionsApi(): Promise<{ inspections: Inspection[]; isMock: boolean }> {

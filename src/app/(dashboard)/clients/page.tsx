@@ -222,7 +222,7 @@ export default function ClientsPage() {
     <div style={{ width: '100%' }}>
       <PageHeader
         title="Client Management"
-        subtitle="Manage client data and vehicle fleet relationships (/api/users)"
+        subtitle="Manage client data and vehicle fleet relationships"
         stats={[
           { label: 'total clients', value: clients.length },
           { label: 'total vehicles', value: totalVehicles, color: 'var(--info)' },

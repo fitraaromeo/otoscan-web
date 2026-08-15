@@ -267,7 +267,7 @@ export default function VehiclesPage() {
     <div style={{ width: '100%' }}>
       <PageHeader
         title="Vehicle Management"
-        subtitle="Manage fleet vehicles and client ownership (/api/vehicles)"
+        subtitle="Manage fleet vehicles and client ownership"
         stats={[
           { label: 'total vehicles', value: vehicles.length },
         ]}

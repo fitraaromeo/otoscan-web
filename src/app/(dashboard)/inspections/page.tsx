@@ -521,7 +521,7 @@ export default function InspectionsPage() {
     <div style={{ width: '100%' }}>
       <PageHeader
         title="Inspection Management"
-        subtitle="List of 4-side AI vehicle inspection sessions (/api/inspections)"
+        subtitle="List of 4-side AI vehicle inspection sessions"
         stats={[
           { label: 'total sessions', value: inspections.length },
           { label: 'total AI damages', value: totalDamages, color: 'var(--warning)' },

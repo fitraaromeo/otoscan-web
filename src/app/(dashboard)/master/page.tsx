@@ -231,7 +231,7 @@ export default function MasterDataPage() {
     <div style={{ width: '100%' }}>
       <PageHeader
         title="Master Data Management"
-        subtitle="Manage system master data (/api/master)"
+        subtitle="Manage system master data"
         stats={[{ label: 'total items', value: items.length }]}
         actions={
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
