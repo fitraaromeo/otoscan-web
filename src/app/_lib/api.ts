@@ -427,7 +427,9 @@ export function mapInspectionToFrontend(ins: any): Inspection {
         ? (photo.imagePath.startsWith('http') ? photo.imagePath : `${API_BASE_URL.replace('/api', '')}${photo.imagePath}`)
         : null;
 
-      targetAngle.imageUrl = fullImageUrl;
+      const cacheBuster = photo.updatedAt ? new Date(photo.updatedAt).getTime() : new Date(photo.createdAt || Date.now()).getTime();
+
+      targetAngle.imageUrl = fullImageUrl ? `${fullImageUrl}?t=${cacheBuster}` : null;
       targetAngle.capturedAt = photo.createdAt || null;
       targetAngle.damages = [];
 
@@ -452,9 +454,10 @@ export function mapInspectionToFrontend(ins: any): Inspection {
           });
 
           if (d.annotatedImagePath) {
-            targetAngle.resultUrl = d.annotatedImagePath.startsWith('http')
+            const rawResultUrl = d.annotatedImagePath.startsWith('http')
               ? d.annotatedImagePath
               : `${API_BASE_URL.replace('/api', '')}${d.annotatedImagePath}`;
+            targetAngle.resultUrl = `${rawResultUrl}?t=${cacheBuster}`;
           }
         });
       }
@@ -819,5 +822,28 @@ export async function deleteInspectionStatusApi(id: string): Promise<boolean> {
     throw new Error(formatErrorMessage(json.message || 'Gagal menghapus status inspeksi'));
   } catch (err: any) {
     throw new Error(formatErrorMessage(err.message));
+  }
+}
+
+export async function detectInspectionPhotoPreviewApi(
+  file: File
+): Promise<{ status: string; predictions: any[]; totalDetections: number } | null> {
+  try {
+    const formData = new FormData();
+    formData.append('image', file);
+
+    const res = await fetch(`${API_BASE_URL}/inspections/detect-preview`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    const json = await safeJsonParse(res);
+    if (res.ok && json.status === 'success') {
+      return json;
+    }
+    return null;
+  } catch (err: any) {
+    console.error('[OtoScan API] Detect preview failed:', err);
+    return null;
   }
 }
