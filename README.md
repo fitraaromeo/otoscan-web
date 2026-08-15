@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# OtoScan Web 🚗🔍
 
-## Getting Started
+OtoScan Web is a modern, premium web application designed for automated **4-side AI vehicle inspection sessions**. Powered by YOLOv12 AI model detection, OtoScan identifies and classifies physical damages on vehicles in real time.
 
-First, run the development server:
+---
+
+## 🚀 Key Features
+
+*   **Interactive Dashboard Overview**: Track key metrics such as Total Clients, Total Fleet Vehicles, Total Inspection Sessions, and Total AI Findings.
+*   **Inspection Session Trends**: View visual charts of inspection activity trends and breakdown of AI damage types.
+*   **4-Side Scan Results**: Manage inspections with dedicated slots for **Front, Rear, Left, and Right** vehicle angles.
+*   **Real-time YOLOv12 Detection**: Automatically detect physical car damages, including:
+    *   🔵 **Dent**
+    *   🟡 **Scratch**
+    *   🔴 **Crack**
+    *   🟣 **Glass Shatter**
+    *   🟠 **Broken Light**
+    *   ⚪ **Flat / Damaged Tire**
+*   **Client & Fleet Management**: Keep track of registered clients and their vehicles.
+*   **Inspector Notes & Metadata**: Store inspection metadata such as the inspector officer in charge, client details, logs, and custom text notes.
+
+---
+
+## 🛠️ Technology Stack
+
+*   **Framework**: [Next.js](https://nextjs.org/) (App Router)
+*   **Language**: TypeScript
+*   **Styling**: Modern CSS variables, Tailwind CSS
+*   **Icons**: Lucide React
+*   **Database & API Backend**: Integrates with PostgreSQL and OtoScan Go API
+
+---
+
+## 📦 Getting Started
+
+### 1. Installation
+
+Clone the repository and install the dependencies:
+
+```bash
+# Clone the repository
+git clone https://github.com/fitraaromeo/otoscan-web.git
+
+# Navigate into the project folder
+cd otoscan-web
+
+# Install package dependencies
+npm install
+```
+
+### 2. Configure Environment Variables
+
+Create a `.env.local` file in the root directory and define the connection configurations if required:
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080
+```
+
+### 3. Run Development Server
+
+Launch the local development environment:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📁 Project Structure
 
-## Learn More
+```text
+otoscan-web/
+├── src/
+│   ├── app/
+│   │   ├── (dashboard)/
+│   │   │   ├── dashboard/       # Dashboard main view
+│   │   │   ├── inspections/     # Inspection sessions list & detail view
+│   │   │   └── master/          # Settings and status definitions
+│   │   ├── _components/         # Reusable UI components (Modal, Badge, Topbar, Sidebar)
+│   │   ├── _lib/                # API fetch helper functions and TypeScript interfaces
+│   │   ├── globals.css          # Design token definitions and custom styles
+│   │   └── layout.tsx           # Global layouts and wrappers
+└── public/                      # Static assets
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📄 License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is licensed under the MIT License.
