@@ -405,7 +405,7 @@ export const mockInspections: Inspection[] = [
       { angle: 'right', imageUrl: null, resultUrl: null, damages: [], capturedAt: null },
     ],
     totalDamages: 0,
-    notes: 'Menunggu kendaraan tiba di lokasi inspeksi.',
+    notes: 'Awaiting vehicle arrival at inspection facility.',
     startedAt: '2024-07-23T00:00:00Z',
     completedAt: null,
     createdAt: '2024-07-23',
@@ -426,7 +426,7 @@ export const mockInspections: Inspection[] = [
       { angle: 'right', imageUrl: '/mock/right.jpg', resultUrl: '/mock/right-result.jpg', damages: [{ id: 'd11', type: 'scratch', severity: 'low', confidence: 0.80, angle: 'right', x: 100, y: 160, width: 35, height: 10 }], capturedAt: '2024-07-10T11:11:00Z' },
     ],
     totalDamages: 2,
-    notes: 'Kondisi kendaraan cukup baik, ada beberapa goresan minor.',
+    notes: 'Vehicle in good overall condition with minor scratches.',
     startedAt: '2024-07-10T10:55:00Z',
     completedAt: '2024-07-10T11:20:00Z',
     createdAt: '2024-07-10',
@@ -468,7 +468,7 @@ export const mockInspections: Inspection[] = [
       { angle: 'right', imageUrl: null, resultUrl: null, damages: [], capturedAt: null },
     ],
     totalDamages: 0,
-    notes: 'AI Service tidak merespons saat proses deteksi. Perlu diulang.',
+    notes: 'AI service timed out during detection process. Retry required.',
     startedAt: '2024-07-15T12:55:00Z',
     completedAt: null,
     createdAt: '2024-07-15',
@@ -478,25 +478,25 @@ export const mockInspections: Inspection[] = [
 // ─── Dashboard Stats ──────────────────────────────────────────────────────────
 export const mockDashboardStats: DashboardStats = {
   totalClients: {
-    label: 'Total Klien',
+    label: 'Total Clients',
     value: 8,
     change: 14.3,
     trend: [3, 4, 4, 5, 5, 6, 7, 8],
   },
   totalVehicles: {
-    label: 'Total Kendaraan',
+    label: 'Total Vehicles',
     value: 47,
     change: 8.7,
     trend: [28, 32, 35, 37, 40, 42, 44, 47],
   },
   inspectionsThisMonth: {
-    label: 'Inspeksi Bulan Ini',
+    label: 'Inspections This Month',
     value: 24,
     change: 20.0,
     trend: [8, 10, 12, 14, 16, 18, 21, 24],
   },
   aiDetectionsThisMonth: {
-    label: 'Deteksi AI',
+    label: 'AI Detections',
     value: 87,
     change: 31.8,
     trend: [30, 38, 45, 52, 60, 68, 77, 87],
@@ -505,13 +505,13 @@ export const mockDashboardStats: DashboardStats = {
 
 // Weekly inspection trend for dashboard chart
 export const weeklyInspectionData = [
-  { day: 'Sen', inspections: 4, detections: 12 },
-  { day: 'Sel', inspections: 6, detections: 19 },
-  { day: 'Rab', inspections: 5, detections: 15 },
-  { day: 'Kam', inspections: 8, detections: 26 },
-  { day: 'Jum', inspections: 7, detections: 22 },
-  { day: 'Sab', inspections: 3, detections: 9 },
-  { day: 'Min', inspections: 2, detections: 6 },
+  { day: 'Mon', inspections: 4, detections: 12 },
+  { day: 'Tue', inspections: 6, detections: 19 },
+  { day: 'Wed', inspections: 5, detections: 15 },
+  { day: 'Thu', inspections: 8, detections: 26 },
+  { day: 'Fri', inspections: 7, detections: 22 },
+  { day: 'Sat', inspections: 3, detections: 9 },
+  { day: 'Sun', inspections: 2, detections: 6 },
 ];
 
 // Monthly trend for area chart
@@ -520,18 +520,18 @@ export const monthlyTrendData = [
   { month: 'Feb', value: 18 },
   { month: 'Mar', value: 15 },
   { month: 'Apr', value: 22 },
-  { month: 'Mei', value: 28 },
+  { month: 'May', value: 28 },
   { month: 'Jun', value: 25 },
   { month: 'Jul', value: 35 },
-  { month: 'Agu', value: 40 },
+  { month: 'Aug', value: 40 },
 ];
 
 // Damage type distribution for donut chart
 export const damageDistribution = [
-  { type: 'Goresan', key: 'scratch', value: 34, color: '#f59e0b' },
-  { type: 'Penyok',  key: 'dent',    value: 28, color: '#6366f1' },
-  { type: 'Retak',   key: 'crack',   value: 16, color: '#ef4444' },
-  { type: 'Kaca',    key: 'glass_shatter', value: 10, color: '#8b5cf6' },
-  { type: 'Lampu',   key: 'lamp_broken',   value: 8,  color: '#f97316' },
-  { type: 'Ban',     key: 'tire_flat',     value: 4,  color: '#06b6d4' },
+  { type: 'Scratch', key: 'scratch', value: 34, color: '#f59e0b' },
+  { type: 'Dent',  key: 'dent',    value: 28, color: '#6366f1' },
+  { type: 'Crack',   key: 'crack',   value: 16, color: '#ef4444' },
+  { type: 'Glass Shatter',    key: 'glass_shatter', value: 10, color: '#8b5cf6' },
+  { type: 'Broken Light',   key: 'lamp_broken',   value: 8,  color: '#f97316' },
+  { type: 'Flat Tire',     key: 'tire_flat',     value: 4,  color: '#06b6d4' },
 ];

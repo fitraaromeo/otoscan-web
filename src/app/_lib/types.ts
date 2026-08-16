@@ -84,3 +84,39 @@ export interface DashboardStats {
   inspectionsThisMonth: StatData;
   aiDetectionsThisMonth: StatData;
 }
+
+// ─── Authentication Types ──────────────────────────────────────────────────────
+export interface AuthUser {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user' | 'inspector' | string;
+  phone?: string;
+  address?: string;
+  vehicleCount?: number;
+  vehicles?: Vehicle[];
+  createdAt?: string;
+}
+
+export interface LoginCredentials {
+  email: string;
+  password?: string;
+}
+
+export interface RegisterData {
+  name: string;
+  email: string;
+  password?: string;
+  phone?: string;
+  address?: string;
+}
+
+export interface AuthResponse {
+  status: 'success' | 'error';
+  message?: string;
+  token?: string;
+  expiresAt?: string;
+  user?: AuthUser;
+  data?: AuthUser;
+}
+

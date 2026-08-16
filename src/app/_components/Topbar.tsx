@@ -1,29 +1,42 @@
 'use client';
 
+import React, { useState } from 'react';
 import { usePathname } from 'next/navigation';
-import { Bell, Search, ChevronDown } from 'lucide-react';
+import { Bell, Search, ChevronDown, LogOut, User as UserIcon } from 'lucide-react';
+import { useAuth } from '@/app/_context/AuthContext';
 
 const PAGE_TITLES: Record<string, { title: string; sub: string }> = {
-  '/dashboard': { title: 'Dashboard', sub: 'System overview & statistics' },
-  '/clients':   { title: 'Client Management', sub: 'Manage your client data' },
-  '/vehicles':  { title: 'Vehicle Management', sub: 'Manage vehicle fleet' },
-  '/inspections': { title: 'Inspection Management', sub: 'History & AI inspection reports' },
-  '/master':    { title: 'Master Data Management', sub: 'Manage damage types, scan angles & statuses' },
+  '/dashboard': { title: 'Admin Dashboard', sub: 'System overview & inspection statistics' },
+  '/clients': { title: 'Client Management', sub: 'Manage registered clients & users' },
+  '/vehicles': { title: 'Vehicle Management', sub: 'Manage registered vehicle fleet' },
+  '/inspections': { title: 'Inspection Management', sub: 'History & AI damage analysis reports' },
+  '/live-detector': { title: 'Live AI Detector', sub: 'Real-time camera detection via YOLOv12' },
+  '/master': { title: 'Master Data Management', sub: 'Manage damage types, angle captures & statuses' },
 };
 
 function getBreadcrumb(pathname: string) {
   if (pathname.startsWith('/inspections/') && pathname !== '/inspections') {
     return {
-      title: `Inspection Detail`,
-      sub: `4-side AI scan result report`,
+      title: `Inspection Report Detail`,
+      sub: `4-angle AI damage detection report`,
     };
   }
-  return PAGE_TITLES[pathname] ?? { title: 'OtoScan AI', sub: '' };
+  return PAGE_TITLES[pathname] ?? { title: 'OtoScan AI', sub: 'Vehicle Inspection System' };
 }
 
 export default function Topbar() {
   const pathname = usePathname();
   const { title, sub } = getBreadcrumb(pathname);
+  const { user, logout } = useAuth();
+
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const getInitials = (name?: string) => {
+    if (!name) return 'A';
+    const parts = name.trim().split(' ');
+    if (parts.length >= 2) return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+    return name.substring(0, 2).toUpperCase();
+  };
 
   return (
     <header
@@ -114,44 +127,99 @@ export default function Topbar() {
           }}
         />
 
-        {/* Avatar */}
-        <button
-          className="btn btn-ghost"
-          style={{
-            padding: '6px 10px',
-            borderRadius: 10,
-            border: '1px solid var(--border)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-          }}
-        >
-          {/* Avatar circle */}
-          <div
+        {/* User Dropdown */}
+        <div style={{ position: 'relative' }}>
+          <button
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+            className="btn btn-ghost"
             style={{
-              width: 32,
-              height: 32,
-              borderRadius: '50%',
-              background: 'var(--gradient)',
+              padding: '6px 10px',
+              borderRadius: 10,
+              border: '1px solid var(--border)',
               display: 'flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: 12,
-              fontWeight: 700,
-              color: '#fff',
-              flexShrink: 0,
+              gap: 10,
+              cursor: 'pointer',
             }}
           >
-            FR
-          </div>
-          <div style={{ textAlign: 'left' }}>
-            <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-1)', lineHeight: 1 }}>
-              Fitra Romeo
+            <div
+              style={{
+                width: 32,
+                height: 32,
+                borderRadius: '50%',
+                background: 'var(--gradient)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: 12,
+                fontWeight: 700,
+                color: '#fff',
+                flexShrink: 0,
+              }}
+            >
+              {getInitials(user?.name)}
             </div>
-            <div style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 2 }}>Administrator</div>
-          </div>
-          <ChevronDown size={14} style={{ color: 'var(--text-3)' }} />
-        </button>
+            <div style={{ textAlign: 'left' }}>
+              <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text-1)', lineHeight: 1 }}>
+                {user?.name || 'Administrator'}
+              </div>
+              <div style={{ fontSize: 11, color: 'var(--text-3)', marginTop: 2, textTransform: 'capitalize' }}>
+                {user?.role || 'Admin'}
+              </div>
+            </div>
+            <ChevronDown size={14} style={{ color: 'var(--text-3)' }} />
+          </button>
+
+          {/* Menu Popup */}
+          {isDropdownOpen && (
+            <div
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: 48,
+                width: 200,
+                background: '#0F172A',
+                border: '1px solid var(--border)',
+                borderRadius: 12,
+                boxShadow: '0 10px 25px rgba(0,0,0,0.5)',
+                padding: '6px',
+                zIndex: 50,
+              }}
+            >
+              <div style={{ padding: '8px 10px', borderBottom: '1px solid var(--border)', marginBottom: 4 }}>
+                <p style={{ fontSize: 12, fontWeight: 600, color: '#FFF' }}>{user?.name}</p>
+                <p style={{ fontSize: 11, color: 'var(--text-3)' }}>{user?.email}</p>
+              </div>
+
+              <button
+                onClick={() => {
+                  setIsDropdownOpen(false);
+                  logout();
+                }}
+                style={{
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 8,
+                  padding: '8px 10px',
+                  borderRadius: 8,
+                  fontSize: 12,
+                  fontWeight: 500,
+                  color: '#F87171',
+                  background: 'transparent',
+                  border: 'none',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.background = 'rgba(239, 68, 68, 0.1)')}
+                onMouseLeave={(e) => (e.currentTarget.style.background = 'transparent')}
+              >
+                <LogOut size={14} />
+                <span>Sign Out</span>
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   );

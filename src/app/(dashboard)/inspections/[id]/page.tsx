@@ -240,8 +240,8 @@ function AngleCardSlot({
             setSelectedDeviceId(backDev ? backDev.deviceId : videoInputs[0].deviceId);
           }
         } catch (err: any) {
-          console.error("Gagal mendapatkan izin akses kamera:", err);
-          setUploadError('Tidak dapat mengakses kamera. Pastikan Anda mengizinkan akses kamera pada perangkat Anda.');
+          console.error("Failed to get camera access permission:", err);
+          setUploadError('Unable to access camera. Please allow camera access on your device.');
         }
       }
     }
@@ -338,7 +338,7 @@ function AngleCardSlot({
           videoRef.current.srcObject = newStream;
         }
       } catch (fallbackErr: any) {
-        setUploadError('Tidak dapat mengakses kamera. Pastikan izin kamera aktif.');
+        setUploadError('Unable to access camera. Please ensure camera permissions are active.');
       }
     }
   }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { AuthProvider } from "./_context/AuthContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -11,14 +12,17 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "OtoScan AI — Intelligent Vehicle Inspection System",
   description:
-    "Sistem inspeksi fisik kendaraan berbasis kecerdasan buatan yang mendeteksi kerusakan otomatis menggunakan YOLOv12 Computer Vision.",
+    "AI-powered vehicle physical inspection system detecting damages automatically using YOLOv12 Computer Vision.",
   keywords: ["vehicle inspection", "AI", "damage detection", "YOLOv12", "OtoScan"],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="id" className={`${inter.variable} h-full`}>
-      <body className="h-full">{children}</body>
+    <html lang="en" className={`${inter.variable} h-full`}>
+      <body className="h-full bg-[#0B0F19] text-white">
+        <AuthProvider>{children}</AuthProvider>
+      </body>
     </html>
   );
 }
+
