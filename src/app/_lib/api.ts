@@ -4,7 +4,7 @@ import { mockClients, mockVehicles, mockInspections } from './mock-data';
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080/api';
 
 export function getAuthToken(customToken?: string): string | null {
-  return customToken || (typeof window !== 'undefined' ? localStorage.getItem('otoscan_token') : null);
+  return customToken || (typeof window !== 'undefined' ? (sessionStorage.getItem('otoscan_token') || localStorage.getItem('otoscan_token')) : null);
 }
 
 export function getAuthHeaders(customToken?: string): Record<string, string> {

@@ -36,13 +36,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(null);
     setUser(null);
     if (typeof window !== 'undefined') {
+      sessionStorage.removeItem('otoscan_token');
+      sessionStorage.removeItem('otoscan_user');
       localStorage.removeItem('otoscan_token');
       localStorage.removeItem('otoscan_user');
     }
   }, [token]);
 
   const refreshUser = useCallback(async () => {
-    const storedToken = typeof window !== 'undefined' ? localStorage.getItem('otoscan_token') : null;
+    const storedToken =
+      typeof window !== 'undefined'
+        ? sessionStorage.getItem('otoscan_token') || localStorage.getItem('otoscan_token')
+        : null;
     if (!storedToken) {
       setUser(null);
       setToken(null);
@@ -55,11 +60,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(userData);
       setToken(storedToken);
       if (typeof window !== 'undefined') {
-        localStorage.setItem('otoscan_user', JSON.stringify(userData));
+        sessionStorage.setItem('otoscan_user', JSON.stringify(userData));
+        sessionStorage.setItem('otoscan_token', storedToken);
       }
     } catch (err) {
       console.warn('[AuthContext] Session validation failed:', err);
-      const cachedUser = typeof window !== 'undefined' ? localStorage.getItem('otoscan_user') : null;
+      const cachedUser =
+        typeof window !== 'undefined'
+          ? sessionStorage.getItem('otoscan_user') || localStorage.getItem('otoscan_user')
+          : null;
       if (cachedUser) {
         try {
           setUser(JSON.parse(cachedUser));
@@ -83,15 +92,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(newToken);
     setUser(newUser);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('otoscan_token', newToken);
-      localStorage.setItem('otoscan_user', JSON.stringify(newUser));
+      sessionStorage.setItem('otoscan_token', newToken);
+      sessionStorage.setItem('otoscan_user', JSON.stringify(newUser));
+      // Clear legacy localStorage to ensure browser close session behavior
+      localStorage.removeItem('otoscan_token');
+      localStorage.removeItem('otoscan_user');
     }
   };
 
   const updateUser = (updatedUser: AuthUser) => {
     setUser(updatedUser);
     if (typeof window !== 'undefined') {
-      localStorage.setItem('otoscan_user', JSON.stringify(updatedUser));
+      sessionStorage.setItem('otoscan_user', JSON.stringify(updatedUser));
     }
   };
 
